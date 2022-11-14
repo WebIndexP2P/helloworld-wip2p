@@ -27,3 +27,6 @@ The easiest option is to run a new private tree like so:
 * The browser will request the /myApp namespace but it wont exist
 * The browser will create a new dataset and save it to /myApp and publish it
 * Subsequent reloads of the browser will fetch the same dataset and then overwrite it with a new instance of the same data.
+
+### Notes
+* GX can be found https://github.com/whyrusleeping/gx
