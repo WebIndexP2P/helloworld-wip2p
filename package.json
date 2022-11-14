@@ -1,0 +1,25 @@
+{
+  "author": "",
+  "bugs": {},
+  "description": "",
+  "gxDependencies": [
+    {
+      "hash": "QmQF4NV3sSPm7cjMYms4xDgoLwqMXrcz8YyMcdw1N4mKbb",
+      "name": "libipfs",
+      "version": "1.0.1"
+    },
+    {
+      "hash": "QmRVeioew7NfqCrQ72oetE2vcXPW9Fp7vRCDcwaMk4Biko",
+      "name": "libwip2p",
+      "version": "0.2.4"
+    }
+  ],
+  "gxVersion": "0.14.0",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "helloworld-wip2p",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
