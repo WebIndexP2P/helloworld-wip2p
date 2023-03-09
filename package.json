@@ -4,12 +4,12 @@
   "description": "",
   "gxDependencies": [
     {
-      "hash": "QmQF4NV3sSPm7cjMYms4xDgoLwqMXrcz8YyMcdw1N4mKbb",
+      "hash": "QmTEzArTu1Djwmuk5AoZkskMRNzuG7V3xhrLDUyGgmVaf3",
       "name": "libipfs",
-      "version": "1.0.1"
+      "version": "1.1.0"
     },
     {
-      "hash": "QmRVeioew7NfqCrQ72oetE2vcXPW9Fp7vRCDcwaMk4Biko",
+      "hash": "QmdvjfCjgvvcb2xioJ58yBB6ZUESAW9zwbvJHavSmDNhDZ",
       "name": "libwip2p",
       "version": "0.2.4"
     }
@@ -19,7 +19,11 @@
   "main": "index.js",
   "name": "helloworld-wip2p",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "getdeps": "npm run getlibipfs && npm run getlibwip2p",
+    "getlibwip2p": "ipfs get QmdvjfCjgvvcb2xioJ58yBB6ZUESAW9zwbvJHavSmDNhDZ -o vendor/ipfs/QmdvjfCjgvvcb2xioJ58yBB6ZUESAW9zwbvJHavSmDNhDZ",
+    "getlibipfs": "ipfs get QmTEzArTu1Djwmuk5AoZkskMRNzuG7V3xhrLDUyGgmVaf3 -o vendor/ipfs/QmTEzArTu1Djwmuk5AoZkskMRNzuG7V3xhrLDUyGgmVaf3"
   },
   "version": "1.0.0"
 }
+

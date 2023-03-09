@@ -2,13 +2,19 @@
   <head>
   </head>
   <body>
-    <script src="./vendor/gx/ipfs/QmQF4NV3sSPm7cjMYms4xDgoLwqMXrcz8YyMcdw1N4mKbb/libipfs/libipfs.min.js"></script>
-    <script src="./vendor/gx/ipfs/QmRVeioew7NfqCrQ72oetE2vcXPW9Fp7vRCDcwaMk4Biko/libwip2p/libwip2p-withdeps.js"></script>
+
+    <script src="./vendor/ipfs/QmTEzArTu1Djwmuk5AoZkskMRNzuG7V3xhrLDUyGgmVaf3/libipfs/libipfs.iife.min.js"></script>
+    <script src="./vendor/ipfs/QmdvjfCjgvvcb2xioJ58yBB6ZUESAW9zwbvJHavSmDNhDZ/libwip2p/libwip2p-withdeps.iife.min.js"></script>
 
     <script>
+
+      let linkedSet;
+
       //console.log(libipfs)
       //console.log(libwip2p)
-      window.Cid = libipfs.multiformats.CID
+      if (window.libipfs == null || window.libwip2p == null) {
+        throw new Error("missing dependencies, run 'gx i'")
+      }
 
       //window.logWebsocket = true;
       libwip2p.useLocalStorage(true);
@@ -17,24 +23,14 @@
       libwip2p.Account.initWallet();
       let myWalletAddress = libwip2p.Account.getWallet().address;
       //console.log(myWalletAddress)
-
-      let bs;
-      let peerSession;
+      
       libwip2p.Peers.init(["ws://localhost:9472"])
       .then((result)=>{
         libwip2p.Peers.getActive().ignorePeerIdChanges = true
-        // we wait for a connection to the peer to connect and get the session object
-        return new Promise((resolve, reject)=>{
-          libwip2p.Peers.events.on('peerconnected', function(){
-            resolve(libwip2p.Peers.getActivePeerSession())
-          })
-        })
-      })
-      .then((session)=>{
-        peerSession = session
-        bs = new libwip2p.BranchSet()
+        // create a new linkedset object for managing the ipld data structure
+        linkedSet = new libwip2p.LinkedSet()
         // try fetch the /myapp namespace for our account
-        return bs.FetchByAccount(myWalletAddress, "/myapp")
+        return linkedSet.fetch(myWalletAddress, "/myapp")
       })
       .catch((err)=>{
         // it should fail the first time cause the account doesnt exist
@@ -43,18 +39,16 @@
       .then(()=>{
         // create some app data and update the branchset
         var newData = {"hello": "world"}
-        return bs.Update("/myapp", newData, true)
+        return linkedSet.update("/myapp", newData, {createIfMissing: true})
       })
       .then(()=>{
         // cryptographically sign the data
-        return bs.sign()
+        return linkedSet.sign()
       })
       .then(()=>{
-        bs.address = myWalletAddress;
-        let sigBundle = bs.exportSigBundle()
-        //console.log(sigBundle)
-        // publish the signed bundle to the remote peer
-        return peerSession.doBundlePublish(sigBundle);
+        // publish to the network
+        linkedSet.address = myWalletAddress;
+        return linkedSet.publish();
       })
       .then((result)=>{
         console.log(result)

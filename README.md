@@ -16,7 +16,7 @@ The easiest option is to run a new private tree like so:
 
 ## Steps to run :
 1. Clone this repo
-2. Run `gx i` to install the two dependencies (will require IPFS or attempt to use public gateway)
+2. Run `npm run getdeps` to install the libwip2p & libipfs dependencies
 3. Manually open the `index.html` in a browser and open the dev tools
 
 ## What's going on
